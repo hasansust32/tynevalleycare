@@ -1,0 +1,42 @@
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand brand-on-dark" href="./">
+        {% include "partials/logo-mark.njk" %}
+        <span class="brand-text">
+          <span class="brand-line-1">{{ site.logoLines[0] }}</span>
+          <span class="brand-line-2">{{ site.logoLines[1] }}</span>
+        </span>
+        <span class="visually-hidden">, homepage</span>
+      </a>
+      <p class="footer-about">Personalised domiciliary care for adults across {{ site.areaServed }}.</p>
+    </div>
+
+    <div class="footer-col">
+      <h2 class="footer-heading">Our office</h2>
+      <address class="footer-address">
+        {%- for line in site.address %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor -%}
+      </address>
+    </div>
+
+    <div class="footer-col">
+      <h2 class="footer-heading">Email us</h2>
+      <p><a class="footer-link" href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+    </div>
+
+    <nav class="footer-col" aria-label="Footer">
+      <h2 class="footer-heading">On this site</h2>
+      <ul class="footer-links">
+        <li><a class="footer-link" href="./">Home</a></li>
+        <li><a class="footer-link" href="{{ navBase }}#services">Our care services</a></li>
+        <li><a class="footer-link" href="{{ navBase }}#how-it-works">How it works</a></li>
+        <li><a class="footer-link" href="enquire.html">Make an enquiry</a></li>
+        <li><a class="footer-link" href="{% if pageId == 'enquire' %}#privacy{% else %}enquire.html#privacy{% endif %}">Privacy notice</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container footer-base">
+    <p>&copy; <span data-year>{{ build.year }}</span> {{ site.name }}. All rights reserved.</p>
+  </div>
+</footer>

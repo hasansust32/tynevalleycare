@@ -1,0 +1,8 @@
+# Dependencies and build output (GitHub Actions rebuilds _site on every push)
+node_modules/
+_site/
+
+# Local and OS files
+.env
+.DS_Store
+Thumbs.db

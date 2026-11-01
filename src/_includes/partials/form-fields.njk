@@ -1,0 +1,33 @@
+{#
+  Reusable form field markup. Each field has: a label, an optional hint, an error message slot
+  (filled in by enquiry-form.js) and the control itself, wired together with aria-describedby.
+#}
+
+{% macro textField(id, name, field, type="text", required=true, extra="", inputClass="input") %}
+<div class="field" data-field="{{ id }}">
+  <label class="field-label" for="{{ id }}">{{ field.label }}{% if not required %} <span class="optional">(optional)</span>{% endif %}</label>
+  {%- if field.hint %}
+  <p class="field-hint" id="{{ id }}-hint">{{ field.hint }}</p>
+  {%- endif %}
+  <p class="field-error" id="{{ id }}-error" hidden></p>
+  <input class="{{ inputClass }}" type="{{ type }}" id="{{ id }}" name="{{ name }}"{% if required %} required{% endif %}{% if field.autocomplete %} autocomplete="{{ field.autocomplete }}"{% endif %} aria-describedby="{% if field.hint %}{{ id }}-hint {% endif %}{{ id }}-error" {{ extra | safe }}>
+</div>
+{% endmacro %}
+
+{% macro choiceGroup(id, name, field, type="radio") %}
+<fieldset class="field field-group" data-field="{{ id }}" aria-describedby="{% if field.hint %}{{ id }}-hint {% endif %}{{ id }}-error">
+  <legend class="field-label">{{ field.label }}</legend>
+  {%- if field.hint %}
+  <p class="field-hint" id="{{ id }}-hint">{{ field.hint }}</p>
+  {%- endif %}
+  <p class="field-error" id="{{ id }}-error" hidden></p>
+  <div class="choice-grid">
+    {%- for option in field.options %}
+    <label class="choice" for="{{ id }}-{{ loop.index }}">
+      <input type="{{ type }}" id="{{ id }}-{{ loop.index }}" name="{{ name }}" value="{{ option }}">
+      <span class="choice-text">{{ option }}</span>
+    </label>
+    {%- endfor %}
+  </div>
+</fieldset>
+{% endmacro %}

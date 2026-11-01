@@ -1,0 +1,19 @@
+---
+layout: layouts/base.njk
+permalink: /index.html
+pageId: home
+canonicalPath: /
+navBase: ""
+---
+{#
+  Homepage sections, in display order.
+  Reorder, remove or add a section by editing this list. Each file lives in src/_includes/sections/
+  and takes its words from src/_data/home.js.
+#}
+{% include "sections/hero.njk" %}
+{% include "sections/intro.njk" %}
+{% include "sections/services.njk" %}
+{% include "sections/why.njk" %}
+{% include "sections/process.njk" %}
+{% include "sections/who.njk" %}
+{% include "sections/cta.njk" %}

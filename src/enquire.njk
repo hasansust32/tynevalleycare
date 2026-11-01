@@ -1,0 +1,117 @@
+---
+layout: layouts/base.njk
+permalink: /enquire.html
+pageId: enquire
+canonicalPath: /enquire.html
+navBase: "./"
+pageScript: enquiry-form.js
+---
+{% from "partials/form-fields.njk" import textField, choiceGroup %}
+{% set e = enquire %}
+{% set f = enquire.form.fields %}
+
+<section class="page-header" aria-labelledby="page-heading">
+  <div class="container page-header-grid">
+    <div class="page-header-copy">
+      <h1 id="page-heading" class="page-heading">{{ e.heading }}</h1>
+      <p class="lead">{{ e.intro }}</p>
+    </div>
+    <img class="page-header-image" src="{{ e.image.src }}" width="{{ e.image.width }}" height="{{ e.image.height }}" alt="{{ e.image.alt }}" decoding="async">
+  </div>
+</section>
+
+<div class="section section-mist enquiry">
+  <div class="container enquiry-grid">
+    <div class="form-panel">
+      <div class="form-status" id="form-status" tabindex="-1" hidden></div>
+
+      <form id="enquiry-form" class="enquiry-form" action="{{ site.form.endpoint }}" method="POST" novalidate
+        data-configured="{{ formConfigured }}"
+        data-min-fill-seconds="{{ site.form.minFillSeconds }}"
+        data-timeout-seconds="{{ site.form.timeoutSeconds }}"
+        data-subject="{{ site.form.subject }}"
+        data-business-email="{{ site.email }}">
+
+        <div class="error-summary" id="error-summary" tabindex="-1" role="alert" hidden>
+          <h2 class="error-summary-title">There is a problem with your enquiry</h2>
+          <ul class="error-summary-list"></ul>
+        </div>
+
+        <p class="form-note">{{ e.form.requiredNote }}</p>
+
+        <fieldset class="form-section">
+          <legend class="form-section-title">{{ e.form.sections.you }}</legend>
+          {{ textField("full-name", "name", f.name, "text", true, 'maxlength="100" spellcheck="false"') }}
+          {{ textField("email", "email", f.email, "email", true, 'maxlength="254" inputmode="email" spellcheck="false"') }}
+          {{ textField("postcode", "postcode", f.postcode, "text", true, 'maxlength="8" autocapitalize="characters" spellcheck="false"', "input input-short") }}
+        </fieldset>
+
+        <fieldset class="form-section">
+          <legend class="form-section-title">{{ e.form.sections.care }}</legend>
+          {{ choiceGroup("care-for", "who_requires_care", f.careFor, "radio") }}
+          {{ choiceGroup("care-types", "type_of_care", f.careTypes, "checkbox") }}
+          {{ textField("start-date", "preferred_start_date", f.startDate, "date", false, "", "input input-short") }}
+
+          <div class="field" data-field="message">
+            <label class="field-label" for="message">{{ f.message.label }} <span class="optional">(optional)</span></label>
+            <p class="field-hint" id="message-hint">{{ f.message.hint }}</p>
+            <p class="field-error" id="message-error" hidden></p>
+            <textarea class="input textarea" id="message" name="additional_information" rows="6" maxlength="{{ f.message.maxLength }}" aria-describedby="message-hint message-count message-error"></textarea>
+            <p class="char-count" id="message-count">Up to {{ f.message.maxLength }} characters.</p>
+          </div>
+        </fieldset>
+
+        {# Honeypot: hidden from people, often filled in by bots. Formspree discards any submission where it has a value. #}
+        <div class="hp-field" aria-hidden="true">
+          <label for="hp-website">Leave this field empty</label>
+          <input type="text" id="hp-website" name="_gotcha" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="field field-consent" data-field="consent">
+          <p class="field-error" id="consent-error" hidden></p>
+          <label class="choice choice-consent" for="consent">
+            <input type="checkbox" id="consent" name="privacy_consent" value="Yes" required aria-describedby="consent-error">
+            <span class="choice-text">{{ f.consent.label }} <a href="#privacy">{{ f.consent.linkText }}</a>.</span>
+          </label>
+        </div>
+
+        <button type="submit" class="button button-primary button-large submit-button">
+          <span class="spinner" aria-hidden="true"></span>
+          <span class="submit-label" data-idle="{{ e.form.submit }}" data-busy="{{ e.form.submitting }}">{{ e.form.submit }}</span>
+        </button>
+      </form>
+    </div>
+
+    <aside class="enquiry-aside" aria-label="About your enquiry">
+      <div class="aside-block">
+        <h2 class="aside-heading">{{ e.next.heading }}</h2>
+        <ol class="next-steps">
+          {%- for step in e.next.steps %}
+          <li>{{ step }}</li>
+          {%- endfor %}
+        </ol>
+      </div>
+      <div class="aside-block">
+        <h2 class="aside-heading">{{ e.contactHeading }}</h2>
+        <p class="aside-label">Email</p>
+        <p><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+        <p class="aside-label">Office</p>
+        <address>
+          {%- for line in site.address %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor -%}
+        </address>
+      </div>
+      <div class="aside-block">
+        <h2 class="aside-heading">Your information</h2>
+        <p>We use your answers only to reply to your enquiry. Our <a href="#privacy">privacy notice</a> explains how the form is processed.</p>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<section id="privacy" class="section section-white privacy" aria-labelledby="privacy-heading">
+  <div class="container">
+    <div class="prose">
+      {% include "content/privacy-notice.njk" %}
+    </div>
+  </div>
+</section>

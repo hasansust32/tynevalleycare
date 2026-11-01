@@ -1,0 +1,26 @@
+{% set s = home.process %}
+<section id="{{ s.id }}" class="section section-mist process" aria-labelledby="{{ s.id }}-heading">
+  <div class="container">
+    <div class="section-intro">
+      <h2 id="{{ s.id }}-heading" class="section-heading">{{ s.heading }}</h2>
+      <p class="lead">{{ s.text }}</p>
+    </div>
+    <div class="process-track">
+      <svg class="process-river" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path d="M0 88C48 84 92 72 125 60S196 26 250 26s92 18 125 34 75 34 125 34 92-18 125-34 75-34 125-34 92 18 125 34 77 26 125 26"/>
+      </svg>
+      <ol class="process-steps" role="list">
+        {% for step in s.steps %}
+        <li class="process-step">
+          <span class="step-number" aria-hidden="true">{{ loop.index }}</span>
+          <h3 class="step-title"><span class="visually-hidden">Step {{ loop.index }}: </span>{{ step.title }}</h3>
+          <p>{{ step.text }}</p>
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+    <p class="process-cta">
+      <a class="button button-primary button-large" href="enquire.html">Start with step 1: make an enquiry</a>
+    </p>
+  </div>
+</section>

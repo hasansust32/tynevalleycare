@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 460" width="560" height="460">
+  <title>A kitchen table set for two beside a window</title>
+  <!-- Original illustration for Newcastle Tyne Valley Domiciliary Care. -->
+  <defs>
+    <linearGradient id="kSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfe0dc"/>
+      <stop offset="1" stop-color="#f4dcb0"/>
+    </linearGradient>
+    <pattern id="gingham" width="24" height="24" patternUnits="userSpaceOnUse">
+      <rect width="24" height="24" fill="#ffffff"/>
+      <rect width="12" height="24" fill="#cfe2e3" opacity=".7"/>
+      <rect width="24" height="12" fill="#cfe2e3" opacity=".7"/>
+    </pattern>
+  </defs>
+
+  <!-- Wall -->
+  <rect width="560" height="460" fill="#e6eee9"/>
+  <rect y="250" width="560" height="10" fill="#d5e0da"/>
+
+  <!-- Window with a view of the fells -->
+  <rect x="292" y="34" width="228" height="208" rx="6" fill="#ffffff"/>
+  <rect x="304" y="46" width="204" height="184" fill="url(#kSky)"/>
+  <path fill="#9db8ae" d="M304 168c40-16 84-22 124-12 30 8 54 4 80-8v82H304z"/>
+  <path fill="#7a9c83" d="M304 196c46-14 104-14 150-4 22 4 40 2 54-4v42H304z"/>
+  <circle cx="358" cy="150" r="16" fill="#fff0cc"/>
+  <path fill="#ffffff" d="M402 46h8v184h-8zM304 134h204v8H304z"/>
+  <rect x="284" y="238" width="244" height="14" rx="3" fill="#ffffff"/>
+
+  <!-- Curtain -->
+  <path fill="#8a5a8d" d="M270 22h48c-8 70-6 150 10 236h-58z"/>
+  <path fill="none" stroke="#744a77" stroke-width="3" stroke-linecap="round" d="M286 40c-2 70 0 140 6 206M302 40c-4 60-2 130 10 206"/>
+  <rect x="256" y="16" width="290" height="8" rx="4" fill="#5b4636"/>
+
+  <!-- Picture on the wall -->
+  <rect x="66" y="70" width="118" height="92" rx="4" fill="#5b4636"/>
+  <rect x="74" y="78" width="102" height="76" fill="#f3e3c4"/>
+  <path fill="#7a9c83" d="M74 132c22-14 46-18 68-10 12 4 22 4 34-2v34H74z"/>
+  <path fill="#6b3a6e" d="M108 122h18v12h-18z"/>
+  <path fill="#33444c" d="M104 124l13-11 13 11z"/>
+
+  <!-- Plant on the sill -->
+  <rect x="474" y="214" width="34" height="26" rx="4" fill="#2f6470"/>
+  <g fill="#5f8a55">
+    <ellipse cx="482" cy="200" rx="7" ry="16" transform="rotate(-28 482 200)"/>
+    <ellipse cx="498" cy="196" rx="7" ry="18" transform="rotate(20 498 196)"/>
+    <ellipse cx="490" cy="192" rx="6" ry="18"/>
+  </g>
+
+  <!-- Table and cloth -->
+  <rect x="18" y="300" width="524" height="16" rx="5" fill="#b4875c"/>
+  <path fill="url(#gingham)" d="M34 314h492l14 146H20z"/>
+  <path fill="none" stroke="#b9cfd0" stroke-width="2" d="M34 314h492"/>
+
+  <!-- Teapot -->
+  <g>
+    <path fill="#2f6470" d="M246 236a52 46 0 0 1 104 0v30a16 16 0 0 1-16 16h-72a16 16 0 0 1-16-16z"/>
+    <path fill="none" stroke="#2f6470" stroke-width="10" stroke-linecap="round" d="M352 238c22-4 28 26 6 34"/>
+    <path fill="#2f6470" d="M246 250c-26-10-34-30-40-40l10-4c6 10 16 22 34 28z"/>
+    <path fill="#f2b53c" d="M246 250h104v10H246z"/>
+    <ellipse cx="298" cy="194" rx="30" ry="7" fill="#24555f"/>
+    <circle cx="298" cy="184" r="7" fill="#24555f"/>
+    <ellipse cx="298" cy="286" rx="58" ry="6" fill="#d7c4a6" opacity=".6"/>
+  </g>
+
+  <!-- Two cups and saucers -->
+  <g>
+    <ellipse cx="128" cy="300" rx="44" ry="8" fill="#ffffff" stroke="#c9d6d1" stroke-width="2"/>
+    <path fill="#ffffff" stroke="#c9d6d1" stroke-width="2" d="M100 262h56v18a22 22 0 0 1-22 22h-12a22 22 0 0 1-22-22z"/>
+    <path fill="#8a5a8d" d="M101 268h54v8h-54z"/>
+    <path fill="none" stroke="#c9d6d1" stroke-width="5" stroke-linecap="round" d="M157 270c14 0 14 18 0 18"/>
+    <path fill="none" stroke="#bccbc6" stroke-width="3" stroke-linecap="round" d="M120 248c-6-8 6-12 0-22M136 248c-6-8 6-12 0-22"/>
+
+    <ellipse cx="438" cy="302" rx="44" ry="8" fill="#ffffff" stroke="#c9d6d1" stroke-width="2"/>
+    <path fill="#ffffff" stroke="#c9d6d1" stroke-width="2" d="M410 264h56v18a22 22 0 0 1-22 22h-12a22 22 0 0 1-22-22z"/>
+    <path fill="#8a5a8d" d="M411 270h54v8h-54z"/>
+    <path fill="none" stroke="#c9d6d1" stroke-width="5" stroke-linecap="round" d="M409 272c-14 0-14 18 0 18"/>
+    <path fill="none" stroke="#bccbc6" stroke-width="3" stroke-linecap="round" d="M432 250c-6-8 6-12 0-22M448 250c-6-8 6-12 0-22"/>
+  </g>
+
+  <!-- Reading glasses -->
+  <g fill="none" stroke="#33444c" stroke-width="3">
+    <circle cx="200" cy="296" r="11"/>
+    <circle cx="228" cy="296" r="11"/>
+    <path d="M211 294q3-4 6 0M189 293l-16-6M239 293l14-8"/>
+  </g>
+
+  <!-- Jar of heather -->
+  <g>
+    <path fill="none" stroke="#5f7f4b" stroke-width="2.5" stroke-linecap="round" d="M372 264c-4-20-12-34-22-44M376 264c0-24 2-40 8-52M380 264c6-18 14-30 24-38"/>
+    <g fill="#8b5a8e">
+      <circle cx="350" cy="220" r="5"/><circle cx="354" cy="230" r="4"/><circle cx="346" cy="230" r="3.5"/>
+      <circle cx="384" cy="210" r="5"/><circle cx="380" cy="220" r="4"/><circle cx="388" cy="222" r="3.5"/>
+      <circle cx="404" cy="226" r="5"/><circle cx="398" cy="234" r="4"/>
+    </g>
+    <path fill="#cfe4e5" stroke="#9fc0c2" stroke-width="2" d="M364 262h26v26a6 6 0 0 1-6 6h-14a6 6 0 0 1-6-6z"/>
+  </g>
+</svg>

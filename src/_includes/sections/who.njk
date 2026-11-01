@@ -1,0 +1,18 @@
+{% set s = home.who %}
+<section id="{{ s.id }}" class="section section-white who" aria-labelledby="{{ s.id }}-heading">
+  <div class="container who-grid">
+    <div class="who-copy">
+      <h2 id="{{ s.id }}-heading" class="section-heading">{{ s.heading }}</h2>
+      <p class="lead">{{ s.text }}</p>
+      <img class="framed-image who-image" src="{{ s.image.src }}" width="{{ s.image.width }}" height="{{ s.image.height }}" alt="{{ s.image.alt }}" loading="lazy" decoding="async">
+    </div>
+    <ul class="who-list" role="list">
+      {% for item in s.items %}
+      <li class="who-item">
+        <h3 class="who-title">{{ item.title }}</h3>
+        <p>{{ item.text }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

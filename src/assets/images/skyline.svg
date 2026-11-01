@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 160" width="1440" height="160" preserveAspectRatio="xMidYMax slice">
+  <title>From the Tyne Valley fells to a bridge over the river in Newcastle</title>
+  <!-- Original illustration for Newcastle Tyne Valley Domiciliary Care. -->
+
+  <!-- Distant fells -->
+  <path fill="#cfdcd7" d="M0 112c90-36 190-52 300-38 90 12 160 6 240-14 110-26 220-18 330 8 60 14 110 18 160 14v118H0z"/>
+  <path fill="#9fbab1" d="M0 128c120-26 220-30 330-18 80 8 150 4 230-8 100-14 200-6 300 12 70 12 120 14 170 12v34H0z"/>
+
+  <!-- Cottage with a lit window -->
+  <path fill="#173e48" d="M286 112V96l17-14 17 14v16z"/>
+  <rect x="309" y="78" width="6" height="12" fill="#173e48"/>
+  <rect x="298" y="98" width="9" height="8" fill="#f2b53c"/>
+  <circle cx="268" cy="102" r="12" fill="#173e48"/>
+  <circle cx="340" cy="104" r="10" fill="#173e48"/>
+  <circle cx="352" cy="108" r="7" fill="#173e48"/>
+
+  <!-- Near ground running into the city -->
+  <path fill="#173e48" d="M0 160v-34c120-20 240-22 360-10 90 8 170 4 260-6 110-12 220-8 330 6 60 8 110 10 150 10h18v34z"/>
+
+  <!-- Trees along the river -->
+  <g fill="#173e48">
+    <circle cx="560" cy="114" r="14"/><circle cx="582" cy="118" r="10"/>
+    <circle cx="760" cy="112" r="12"/><circle cx="778" cy="116" r="9"/>
+  </g>
+
+  <!-- River under the bridge -->
+  <rect x="1060" y="127" width="300" height="17" fill="#8db6bb"/>
+  <path fill="none" stroke="#d6e8e9" stroke-width="2" stroke-linecap="round" d="M1110 136h40M1200 139h60M1290 135h30"/>
+  <path fill="#173e48" d="M1060 144h300v16h-300z"/>
+
+  <!-- Bridge: towers, deck, arch and hangers -->
+  <g fill="#173e48">
+    <rect x="1028" y="84" width="34" height="76"/>
+    <rect x="1024" y="80" width="42" height="8"/>
+    <rect x="1358" y="84" width="34" height="76"/>
+    <rect x="1354" y="80" width="42" height="8"/>
+    <rect x="1062" y="118" width="296" height="10"/>
+  </g>
+  <path fill="none" stroke="#173e48" stroke-width="9" d="M1062 128C1120 32 1300 32 1358 128"/>
+  <g fill="none" stroke="#173e48" stroke-width="3">
+    <path d="M1100 91V118 M1130 75V118 M1160 65V118 M1190 60V118 M1220 59V118 M1250 63V118 M1280 71V118 M1310 85V118"/>
+  </g>
+
+  <!-- City side -->
+  <path fill="#173e48" d="M1392 160v-36h48v36z"/>
+  <path fill="#173e48" d="M950 160v-34h78v34z"/>
+</svg>

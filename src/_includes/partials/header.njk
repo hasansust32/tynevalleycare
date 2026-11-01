@@ -1,0 +1,28 @@
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="./">
+      {% include "partials/logo-mark.njk" %}
+      <span class="brand-text">
+        <span class="brand-line-1">{{ site.logoLines[0] }}</span>
+        <span class="brand-line-2">{{ site.logoLines[1] }}</span>
+      </span>
+      <span class="visually-hidden">, homepage</span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="nav-toggle-bars" aria-hidden="true"></span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul class="nav-list">
+        <li><a class="nav-link" href="{{ navBase }}#services">Our care</a></li>
+        <li><a class="nav-link" href="{{ navBase }}#how-it-works">How it works</a></li>
+        <li><a class="nav-link" href="{{ navBase }}#who-we-support">Who we support</a></li>
+        <li class="nav-cta-item">
+          <a class="button button-primary nav-cta" href="enquire.html"{% if pageId == "enquire" %} aria-current="page"{% endif %}>Make an enquiry</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,12 @@
+{% set s = home.cta %}
+<section class="cta-band" aria-labelledby="cta-heading">
+  <img class="cta-skyline" src="assets/images/skyline.svg" width="1440" height="160" alt="" loading="lazy" decoding="async">
+  <div class="container cta-inner">
+    <h2 id="cta-heading" class="cta-heading">{{ s.heading }}</h2>
+    <p class="cta-text">{{ s.text }}</p>
+    <p class="cta-actions">
+      <a class="button button-lamp button-large" href="enquire.html">{{ s.button }}</a>
+    </p>
+    <p class="cta-email">{{ s.emailLead }} <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+  </div>
+</section>

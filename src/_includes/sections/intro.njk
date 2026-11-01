@@ -1,0 +1,20 @@
+{% set s = home.intro %}
+<section id="{{ s.id }}" class="section section-white intro" aria-labelledby="{{ s.id }}-heading">
+  <div class="container intro-grid">
+    <div class="intro-copy">
+      <h2 id="{{ s.id }}-heading" class="section-heading">{{ s.heading }}</h2>
+      {% for p in s.paragraphs %}
+      <p class="{% if loop.first %}lead{% endif %}">{{ p }}</p>
+      {% endfor %}
+      <h3 class="intro-list-heading">{{ s.listHeading }}</h3>
+      <ul class="tick-list">
+        {% for item in s.list %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="intro-art">
+      <img class="framed-image" src="{{ s.image.src }}" width="{{ s.image.width }}" height="{{ s.image.height }}" alt="{{ s.image.alt }}" loading="lazy" decoding="async">
+    </div>
+  </div>
+</section>

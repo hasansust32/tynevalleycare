@@ -1,0 +1,69 @@
+{%- set meta = home.meta if pageId == "home" else enquire.meta -%}
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- if eleventy.env.runMode == "build" %}
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' {{ site.form.endpoint | origin }}; form-action 'self' {{ site.form.endpoint | origin }}; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+  {%- endif %}
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>{{ meta.title }}</title>
+  <meta name="description" content="{{ meta.description }}">
+  <link rel="canonical" href="{{ site.url }}{{ canonicalPath }}">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:locale" content="{{ site.locale }}">
+  <meta property="og:title" content="{{ meta.title }}">
+  <meta property="og:description" content="{{ meta.description }}">
+  <meta property="og:url" content="{{ site.url }}{{ canonicalPath }}">
+  <meta property="og:image" content="{{ site.url }}/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ site.name }}: compassionate home care across {{ site.areaServed }}.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta name="theme-color" content="#173e48">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+
+  <link rel="preload" href="assets/fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/literata-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css?v={{ build.version }}">
+  <script src="assets/js/site.js?v={{ build.version }}"></script>
+  {%- if pageScript %}
+  <script src="assets/js/{{ pageScript }}?v={{ build.version }}" defer></script>
+  {%- endif %}
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": {{ site.name | dump | safe }},
+    "url": {{ (site.url + "/") | dump | safe }},
+    "email": {{ site.email | dump | safe }},
+    "image": {{ (site.url + "/assets/images/og-image.png") | dump | safe }},
+    "logo": {{ (site.url + "/assets/images/logo.png") | dump | safe }},
+    "description": {{ home.meta.description | dump | safe }},
+    "areaServed": {{ site.areaServed | dump | safe }},
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": {{ (site.address[0] + ", " + site.address[1]) | dump | safe }},
+      "addressLocality": {{ site.address[2] | dump | safe }},
+      "postalCode": {{ site.address[4] | dump | safe }},
+      "addressCountry": "GB"
+    }
+  }
+  </script>
+</head>
+<body class="page-{{ pageId }}">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  {% include "partials/header.njk" %}
+  <main id="main" tabindex="-1">
+    {{ content | safe }}
+  </main>
+  {% include "partials/footer.njk" %}
+</body>
+</html>

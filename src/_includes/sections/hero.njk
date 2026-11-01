@@ -1,0 +1,20 @@
+{% set s = home.hero %}
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <h1 id="hero-heading" class="hero-heading">{{ s.heading }}</h1>
+      <p class="hero-lead">{{ s.text }}</p>
+      <div class="hero-actions">
+        <a class="button button-primary button-large" href="enquire.html">{{ s.primaryCta }}</a>
+        <a class="button button-secondary button-large" href="#services">{{ s.secondaryCta }}</a>
+      </div>
+      <p class="hero-area">
+        <svg class="hero-area-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10" r="2.4"/></svg>
+        {{ s.area }}
+      </p>
+    </div>
+    <div class="hero-art">
+      <img class="hero-image" src="{{ s.image.src }}" width="{{ s.image.width }}" height="{{ s.image.height }}" alt="{{ s.image.alt }}" fetchpriority="high" decoding="async">
+    </div>
+  </div>
+</section>

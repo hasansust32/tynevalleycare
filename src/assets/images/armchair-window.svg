@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 520" width="520" height="520">
+  <title>An armchair with a blanket beside a lamp and family photographs</title>
+  <!-- Original illustration for Newcastle Tyne Valley Domiciliary Care. -->
+  <defs>
+    <linearGradient id="aSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cfe0dc"/>
+      <stop offset="1" stop-color="#f4dcb0"/>
+    </linearGradient>
+    <radialGradient id="aGlow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ffd77a" stop-opacity=".8"/>
+      <stop offset="1" stop-color="#ffd77a" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="knit" width="12" height="12" patternUnits="userSpaceOnUse">
+      <rect width="12" height="12" fill="#8a5a8d"/>
+      <path fill="none" stroke="#a676a8" stroke-width="2" d="M0 3l3 3 3-3 3 3 3-3M0 9l3 3 3-3 3 3 3-3"/>
+    </pattern>
+  </defs>
+
+  <!-- Room -->
+  <rect width="520" height="520" fill="#e6eee9"/>
+  <rect y="392" width="520" height="128" fill="#cbb48f"/>
+  <path fill="none" stroke="#b9a07a" stroke-width="2" d="M0 430h520M0 470h520M0 508h520"/>
+  <rect y="384" width="520" height="10" fill="#f4f7f5"/>
+
+  <!-- Window -->
+  <rect x="322" y="54" width="164" height="210" rx="6" fill="#ffffff"/>
+  <rect x="334" y="66" width="140" height="186" fill="url(#aSky)"/>
+  <path fill="#9db8ae" d="M334 196c30-14 64-18 96-8 18 6 32 4 44-2v66H334z"/>
+  <path fill="#7a9c83" d="M334 222c40-10 86-10 140 0v30H334z"/>
+  <path fill="#ffffff" d="M400 66h8v186h-8zM334 150h140v8H334z"/>
+  <rect x="314" y="260" width="180" height="12" rx="3" fill="#ffffff"/>
+
+  <!-- Standard lamp -->
+  <circle cx="86" cy="150" r="90" fill="url(#aGlow)"/>
+  <path fill="#f6dca2" d="M52 112h68l16 64H36z"/>
+  <path fill="none" stroke="#e2bd6e" stroke-width="3" d="M36 176h100"/>
+  <path fill="none" stroke="#5b4636" stroke-width="6" stroke-linecap="round" d="M86 176v216"/>
+  <ellipse cx="86" cy="394" rx="30" ry="7" fill="#5b4636"/>
+
+  <!-- Rug -->
+  <ellipse cx="260" cy="470" rx="210" ry="34" fill="#d7bfd8"/>
+  <ellipse cx="260" cy="470" rx="182" ry="24" fill="none" stroke="#c4a3c6" stroke-width="3"/>
+
+  <!-- Armchair -->
+  <g>
+    <path fill="#2f6470" d="M150 196c0-30 18-48 48-48h70c30 0 48 18 48 48v120H150z"/>
+    <path fill="#24555f" d="M122 280c0-24 30-28 40-8v100h-40z"/>
+    <path fill="#24555f" d="M304 272c10-20 40-16 40 8v92h-40z"/>
+    <rect x="148" y="318" width="170" height="42" rx="12" fill="#357380"/>
+    <rect x="118" y="356" width="230" height="30" rx="10" fill="#24555f"/>
+    <path fill="#5b4636" d="M132 386h12l-2 30h-8zM322 386h12l-2 30h-8z"/>
+    <rect x="186" y="232" width="92" height="74" rx="22" fill="#f2b53c"/>
+    <path fill="none" stroke="#d99a2b" stroke-width="3" stroke-linecap="round" d="M198 252h68M198 286h68"/>
+    <circle cx="232" cy="269" r="4" fill="#d99a2b"/>
+    <!-- Blanket over the arm -->
+    <path fill="url(#knit)" d="M300 262c22-10 46-8 52 10l2 112c-10 14-36 14-50 4l-6-60c-4-24-2-46 2-66z"/>
+    <path fill="none" stroke="#744a77" stroke-width="3" stroke-linecap="round" d="M308 392l-2 14M318 394l0 16M328 394l1 14M338 392l2 14"/>
+  </g>
+
+  <!-- Side table with photographs -->
+  <g>
+    <ellipse cx="420" cy="320" rx="56" ry="10" fill="#8a6a4f"/>
+    <path fill="#7a5c43" d="M414 326h12v66h-12z"/>
+    <ellipse cx="420" cy="394" rx="30" ry="6" fill="#6f5440"/>
+    <rect x="378" y="266" width="38" height="50" rx="3" fill="#33444c"/>
+    <rect x="383" y="271" width="28" height="40" fill="#f3e3c4"/>
+    <circle cx="397" cy="285" r="6" fill="#c98e6a"/>
+    <path fill="#6b3a6e" d="M386 311c0-10 5-16 11-16s11 6 11 16z"/>
+    <rect x="424" y="280" width="42" height="36" rx="3" fill="#f2b53c"/>
+    <rect x="429" y="285" width="32" height="26" fill="#f3e3c4"/>
+    <circle cx="439" cy="293" r="4.5" fill="#e2b48f"/>
+    <circle cx="452" cy="295" r="4" fill="#c98e6a"/>
+    <path fill="#2f6470" d="M432 311c0-7 3-11 7-11s7 4 7 11zM446 311c0-6 3-10 6-10s6 4 6 10z"/>
+  </g>
+
+  <!-- Ball of wool -->
+  <circle cx="190" cy="444" r="20" fill="#f2b53c"/>
+  <path fill="none" stroke="#d99a2b" stroke-width="3" d="M174 436c10 4 22 12 30 22M178 452c8-10 20-18 30-20M190 424c-4 12-4 26 2 40"/>
+  <path fill="none" stroke="#d99a2b" stroke-width="2.5" stroke-linecap="round" d="M208 450c20 10 30 4 44 12"/>
+</svg>

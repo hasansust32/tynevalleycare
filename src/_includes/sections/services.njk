@@ -1,0 +1,21 @@
+{% set s = home.services %}
+<section id="{{ s.id }}" class="section section-tint services" aria-labelledby="{{ s.id }}-heading">
+  <div class="container">
+    <div class="section-intro">
+      <h2 id="{{ s.id }}-heading" class="section-heading">{{ s.heading }}</h2>
+      <p class="lead">{{ s.text }}</p>
+    </div>
+    <ul class="service-grid" role="list">
+      {% for item in s.items %}
+      <li class="service">
+        <span class="service-icon">{% include "icons/" + item.icon + ".svg" %}</span>
+        <h3 class="service-title">{{ item.title }}</h3>
+        <p>{{ item.text }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="services-cta">
+      <a class="button button-primary" href="enquire.html">Ask about a service</a>
+    </p>
+  </div>
+</section>

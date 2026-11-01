@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" width="480" height="600">
+  <title>A front door in a sandstone wall with a light glowing above it</title>
+  <!-- Original illustration for Newcastle Tyne Valley Domiciliary Care. -->
+  <defs>
+    <pattern id="ashlar" width="120" height="48" patternUnits="userSpaceOnUse">
+      <rect width="120" height="48" fill="#e2cda4"/>
+      <path fill="none" stroke="#cfb586" stroke-width="2" d="M0 1h120M0 25h120M40 1v24M100 25v24M10 25v24"/>
+    </pattern>
+    <radialGradient id="lampGlow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ffd77a" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#ffd77a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Sandstone wall -->
+  <rect width="480" height="600" fill="url(#ashlar)"/>
+
+  <!-- Glow from the fanlight and lantern -->
+  <circle cx="240" cy="160" r="150" fill="url(#lampGlow)" opacity=".7"/>
+  <circle cx="392" cy="226" r="70" fill="url(#lampGlow)"/>
+
+  <!-- Stone surround -->
+  <path fill="#efe3c9" d="M126 560V180a114 114 0 0 1 228 0v380z"/>
+  <path fill="#d9c6a0" d="M140 560V182a100 100 0 0 1 200 0v378z"/>
+
+  <!-- Fanlight -->
+  <path fill="#ffd36a" d="M152 186a88 88 0 0 1 176 0z"/>
+  <g fill="none" stroke="#efe3c9" stroke-width="5" stroke-linecap="round">
+    <path d="M240 186V100M240 186l-62-62M240 186l62-62M240 186l-84-28M240 186l84-28"/>
+    <path d="M200 186a40 40 0 0 1 80 0"/>
+  </g>
+  <rect x="150" y="186" width="180" height="10" fill="#efe3c9"/>
+
+  <!-- Door -->
+  <rect x="156" y="196" width="168" height="364" fill="#6b3a6e"/>
+  <g fill="none" stroke="#552c58" stroke-width="5">
+    <rect x="178" y="220" width="52" height="128" rx="3"/>
+    <rect x="250" y="220" width="52" height="128" rx="3"/>
+    <rect x="178" y="388" width="52" height="146" rx="3"/>
+    <rect x="250" y="388" width="52" height="146" rx="3"/>
+  </g>
+  <rect x="208" y="362" width="64" height="14" rx="3" fill="#f2b53c"/>
+  <circle cx="300" cy="372" r="7" fill="#f2b53c"/>
+  <circle cx="240" cy="296" r="10" fill="none" stroke="#f2b53c" stroke-width="4"/>
+  <circle cx="240" cy="284" r="4" fill="#f2b53c"/>
+
+  <!-- Lantern -->
+  <path fill="none" stroke="#33444c" stroke-width="5" stroke-linecap="round" d="M418 196h-26v14"/>
+  <path fill="#33444c" d="M378 210h28l-4 8h-20z"/>
+  <rect x="381" y="218" width="22" height="30" fill="#ffd36a" stroke="#33444c" stroke-width="3"/>
+  <path fill="#33444c" d="M378 248h28v6h-28z"/>
+
+  <!-- Step and pavement -->
+  <rect x="112" y="556" width="256" height="20" rx="3" fill="#c8b48f"/>
+  <rect y="576" width="480" height="24" fill="#b9b2a4"/>
+
+  <!-- Planter -->
+  <g>
+    <path fill="#2f6470" d="M50 504h64l-8 72H58z"/>
+    <path fill="#24555f" d="M46 498h72v12H46z"/>
+    <g fill="#5f8a55">
+      <ellipse cx="70" cy="470" rx="12" ry="30" transform="rotate(-24 70 470)"/>
+      <ellipse cx="96" cy="466" rx="12" ry="32" transform="rotate(20 96 466)"/>
+      <ellipse cx="82" cy="458" rx="11" ry="36"/>
+    </g>
+    <g fill="#a676a8">
+      <circle cx="64" cy="452" r="6"/><circle cx="100" cy="446" r="6"/><circle cx="82" cy="432" r="6"/>
+    </g>
+  </g>
+
+  <!-- Doormat -->
+  <rect x="176" y="568" width="128" height="10" rx="3" fill="#8a6a4f"/>
+</svg>

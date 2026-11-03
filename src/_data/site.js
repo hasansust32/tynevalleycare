@@ -16,7 +16,7 @@ export default {
   // Live domain, with no trailing slash. Used for canonical links, social previews and the sitemap.
   url: "https://tynevalleycare.co.uk",
 
-  email: "info@tynevalleycare.co.uk",
+  email: "admin@tynevalleycare.co.uk",
 
   // Office address, shown exactly as supplied. Each line is printed on its own row.
   address: [

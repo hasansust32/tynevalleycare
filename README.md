@@ -3,7 +3,7 @@
 This is a two-page static website: a **homepage** and an **Enquire now** page with a working enquiry form. It is built for **GitHub Pages** with the custom domain **tynevalleycare.co.uk**.
 
 - **No server, no database.** The live site is plain HTML, CSS, JavaScript and images.
-- Enquiries go to **Formspree**, a third-party form service, which emails them to `info@tynevalleycare.co.uk`.
+- Enquiries go to **Formspree**, a third-party form service, which emails them to `admin@tynevalleycare.co.uk`.
 - **Eleventy** (a static site generator) runs only at build time. It lets the header, footer and content live in one place each. GitHub Actions rebuilds and publishes the site every time you push.
 
 ---
@@ -100,13 +100,13 @@ Until you do this, the form **will not send anything**. A visitor who submits it
 
 ### 4.1 Make sure the mailbox exists
 
-Buying a domain does **not** give you an email inbox. Set up email hosting for `info@tynevalleycare.co.uk` with your domain registrar or an email provider, and add the MX records they give you. Email (MX) records and the GitHub Pages records in section 6 don't conflict.
+Buying a domain does **not** give you an email inbox. Set up email hosting for `admin@tynevalleycare.co.uk` with your domain registrar or an email provider, and add the MX records they give you. Email (MX) records and the GitHub Pages records in section 6 don't conflict.
 
 ### 4.2 Create the Formspree form
 
-1. Go to https://formspree.io and create an account (sign up with `info@tynevalleycare.co.uk` if you can).
+1. Go to https://formspree.io and create an account (sign up with `admin@tynevalleycare.co.uk` if you can).
 2. Create a **new form**, for example "Website enquiries".
-3. Set the form's **target email** to `info@tynevalleycare.co.uk`. Formspree sends a verification email to that address. Open it and confirm, or submissions won't be forwarded.
+3. Set the form's **target email** to `admin@tynevalleycare.co.uk`. Formspree sends a verification email to that address. Open it and confirm, or submissions won't be forwarded.
 4. Copy the form's **endpoint**. It looks like `https://formspree.io/f/abcdwxyz`.
 5. In the form's **Settings**, find the spam-protection section and **turn off reCAPTCHA** for this form. Formspree's built-in reCAPTCHA works by sending visitors to a Formspree page, which can't happen when the form submits in the background as this one does. The site keeps two other spam defences:
    - a hidden honeypot field (`_gotcha`), which Formspree uses to silently discard bot submissions;
@@ -137,7 +137,7 @@ The subject line reads `New care enquiry: <name> (<postcode>)`. The email lists:
 
 After the site is live, submit a real test enquiry from the live website. Then confirm:
 
-- the email arrives at `info@tynevalleycare.co.uk` (check spam/junk too);
+- the email arrives at `admin@tynevalleycare.co.uk` (check spam/junk too);
 - the submission appears in the Formspree dashboard;
 - the website showed "Thank you, your enquiry has been sent".
 
@@ -265,7 +265,7 @@ Keep a similar aspect ratio, or adjust the image rules in `site.css`. The hero's
 ## 8. Before you launch (checklist)
 
 - [ ] Formspree endpoint set, reCAPTCHA setting reviewed, **real test enquiry received** (section 4).
-- [ ] `info@tynevalleycare.co.uk` mailbox exists and is checked regularly.
+- [ ] `admin@tynevalleycare.co.uk` mailbox exists and is checked regularly.
 - [ ] **Privacy notice reviewed** against the ICO's guidance for small organisations. Confirm the retention wording matches what you actually do, and check whether you need to pay the ICO data protection fee. The notice describes how this site works; it is not legal advice.
 - [ ] **Wording matches how you work.** For example, the site says you visit to plan care and review plans regularly. Edit `home.js` if anything differs.
 - [ ] **Regulation:** the site makes no claims about CQC registration, ratings, awards or reviews. When you have verified details to show (for example a CQC registration and its current rating), add them. Don't add anything that can't be checked.

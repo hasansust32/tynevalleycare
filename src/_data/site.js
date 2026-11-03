@@ -41,7 +41,7 @@ export default {
      *           (GitHub > Settings > Secrets and variables > Actions > Variables). The deploy workflow passes it in.
      * Until a real endpoint is set, the form tells visitors it isn't connected yet and never pretends to send.
      */
-    endpoint: process.env.FORM_ENDPOINT || "https://formspree.io/f/YOUR_FORM_ID",
+    endpoint: process.env.FORM_ENDPOINT || "https://formspree.io/f/xaeeaywz",
 
     // Subject line of the email you receive. The visitor's name and postcode are added after it.
     subject: "New care enquiry",

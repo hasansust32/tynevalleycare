@@ -1,322 +1,353 @@
 # Newcastle Tyne Valley Domiciliary Care website
 
-This is a two-page static website: a **homepage** and an **Enquire now** page with a working enquiry form. It is built for **GitHub Pages** with the custom domain **tynevalleycare.co.uk**.
+Production website for **Newcastle Tyne Valley Domiciliary Care**.
 
-- **No server, no database.** The live site is plain HTML, CSS, JavaScript and images.
-- Enquiries go to **Formspree**, a third-party form service, which emails them to `admin@tynevalleycare.co.uk`.
-- **Eleventy** (a static site generator) runs only at build time. It lets the header, footer and content live in one place each. GitHub Actions rebuilds and publishes the site every time you push.
+**Live site:** https://tynevalleycare.co.uk
+**Contact:** admin@tynevalleycare.co.uk
+
+The site is two static pages: a homepage and an **Enquire now** page. Visitors send enquiries through a form that emails the business. There is no server, no database and no login. That keeps hosting free, fast and low-maintenance.
+
+| | |
+|---|---|
+| Hosting | GitHub Pages (built and published by GitHub Actions on every push to `main`) |
+| Domain and DNS | Namecheap (`tynevalleycare.co.uk`) |
+| HTTPS | GitHub Pages certificate, **Enforce HTTPS** on |
+| Business email | Zoho Mail (UK data centre), mailbox `admin@tynevalleycare.co.uk` |
+| Enquiry form | Formspree (free plan), delivers to `admin@tynevalleycare.co.uk` |
+| Build tool | Eleventy 3 (build time only; the published site is plain HTML/CSS/JS) |
 
 ---
 
 ## Contents
 
-1. [Project structure](#1-project-structure)
-2. [Run it on your computer](#2-run-it-on-your-computer)
-3. [Edit the content](#3-edit-the-content)
-4. [Connect the enquiry form (Formspree)](#4-connect-the-enquiry-form-formspree)
-5. [Publish on GitHub Pages](#5-publish-on-github-pages)
-6. [Connect the custom domain](#6-connect-the-custom-domain)
-7. [Images](#7-images)
-8. [Before you launch](#8-before-you-launch-checklist)
-9. [How the site was tested](#9-how-the-site-was-tested)
-10. [Maintenance rules](#10-maintenance-rules)
-11. [Troubleshooting](#11-troubleshooting)
+1. [How it fits together](#1-how-it-fits-together)
+2. [Accounts and renewals](#2-accounts-and-renewals)
+3. [Run it locally](#3-run-it-locally)
+4. [Edit the content](#4-edit-the-content)
+5. [Deploy](#5-deploy)
+6. [Enquiry form (Formspree)](#6-enquiry-form-formspree)
+7. [Email (Zoho Mail)](#7-email-zoho-mail)
+8. [Domain and DNS (Namecheap)](#8-domain-and-dns-namecheap)
+9. [Security and privacy](#9-security-and-privacy)
+10. [Testing](#10-testing)
+11. [Routine checks](#11-routine-checks)
+12. [Troubleshooting](#12-troubleshooting)
+13. [Project structure](#13-project-structure)
 
 ---
 
-## 1. Project structure
+## 1. How it fits together
+
+```
+ Visitor ──HTTPS──▶ tynevalleycare.co.uk  (GitHub Pages, static files)
+                           │
+                           │ enquiry form (fetch POST, JSON)
+                           ▼
+                     Formspree  ──email──▶  admin@tynevalleycare.co.uk  (Zoho Mail)
+                                                     │
+                                         reply by email to the visitor
+
+ Developer ──git push main──▶ GitHub Actions ──build (Eleventy)──▶ GitHub Pages
+```
+
+- DNS for the domain is at **Namecheap**. Website records point to GitHub Pages and mail records point to Zoho. The two sets don't interfere with each other.
+- The site stores nothing itself. Formspree keeps a copy of each submission in its dashboard, and Zoho keeps the email.
+
+---
+
+## 2. Accounts and renewals
+
+Keep the login details for these services in a password manager. **Never commit passwords, recovery codes or card details to this repository**, because it is public.
+
+| Service | Used for | Plan | Renewal |
+|---|---|---|---|
+| GitHub (`hasansust32`) | Code, hosting (Pages), deploys (Actions) | Free | none |
+| Namecheap | Domain registration and DNS | Paid yearly | **1 Nov 2027**, auto-renew on |
+| Zoho Mail | `admin@tynevalleycare.co.uk` mailbox | Mail Lite 5 GB, 1 user, yearly | **3 Nov 2027**, auto-renews unless turned off with Zoho |
+| Formspree | Enquiry form delivery | Free (about 50 submissions/month; check Formspree's pricing page) | none |
+
+> **Renewal decisions:** if the domain lapses, the website **and** the email stop working. If Zoho lapses, email stops but the website stays up, though enquiries would have nowhere to go. Put both renewal dates in a calendar about a month ahead.
+
+---
+
+## 3. Run it locally
+
+Requires **Node.js 18+** (22 recommended, see `.nvmrc`).
+
+```bash
+npm ci             # install exact dependency versions from package-lock.json
+npm start          # dev server at http://localhost:8080 with live reload
+npm run build      # production build into _site/
+npm run clean      # delete _site/
+```
+
+- `_site/` is generated. It is git-ignored and never edited by hand.
+- The Content Security Policy is added **only in production builds** (`npm run build`), so the dev server's live reload keeps working.
+- To try the form locally without sending real enquiries, build with a dummy endpoint: `FORM_ENDPOINT=https://formspree.io/f/test npm run build`. With a dummy endpoint, submissions fail with a clear error message.
+
+---
+
+## 4. Edit the content
+
+Almost every edit lives in one of these files:
+
+| To change… | Edit |
+|---|---|
+| Business name, email, address, domain, form endpoint | `src/_data/site.js` |
+| Homepage wording, services, steps, who we support | `src/_data/home.js` |
+| Enquiry page wording, form labels and options | `src/_data/enquire.js` |
+| Privacy notice | `src/_includes/content/privacy-notice.njk` |
+| Order of homepage sections | `src/index.njk` (one `include` line per section) |
+| Colours, fonts, spacing | Design tokens at the top of `src/assets/css/site.css` |
+
+**Content rules for this site.** Don't break these without a deliberate decision:
+- **No telephone number** anywhere.
+- **No partner logos, third-party branding or external links.** The only outward link is the business `mailto:`.
+- **No reviews, testimonials, awards, ratings or CQC claims** unless they are real and can be checked. If you later have a CQC registration and rating, add the verified details then.
+- Images are original illustrations. Only add photos you own or have licensed, and get written consent from anyone pictured.
+
+**Adding a homepage section:** copy an existing file in `src/_includes/sections/`, add its text to `home.js`, then add an `include` line in `src/index.njk`.
+
+**Swapping an illustration for a photo:**
+1. Export a `.jpg` or `.webp` at roughly twice its display size and compress it.
+2. Put it in `src/assets/images/`.
+3. Update `src`, `width`, `height` and `alt` for that image in `src/_data/home.js`.
+
+The hero arch is drawn for a 640 × 660 image.
+
+---
+
+## 5. Deploy
+
+Deployment is automatic.
+
+1. Commit to `main` and push.
+2. The **Deploy to GitHub Pages** workflow (`.github/workflows/deploy.yml`) runs `npm ci` and `npm run build`, then publishes `_site/`.
+3. The site is live about a minute later. Check progress in the repository's **Actions** tab, or start a run by hand with **Run workflow**.
+
+Repository settings this depends on (already configured):
+- **Settings → Pages → Build and deployment → Source:** `GitHub Actions`
+- **Settings → Pages → Custom domain:** `tynevalleycare.co.uk` (verified), **Enforce HTTPS** ticked
+
+Notes:
+- With Actions-based Pages, GitHub takes the custom domain from **Settings → Pages**. `src/CNAME` is kept as a record of the domain only.
+- **Rolling back:** `git revert <commit>` then push. The previous version redeploys.
+- **Changing domain:** update **Settings → Pages**, `src/CNAME`, and `url` in `src/_data/site.js`. The `url` value drives canonical links, `sitemap.xml` and social previews.
+
+---
+
+## 6. Enquiry form (Formspree)
+
+**Status: connected and tested.** A real test enquiry from the live site was delivered to `admin@tynevalleycare.co.uk`.
+
+| Setting | Value |
+|---|---|
+| Endpoint | `https://formspree.io/f/xaeeaywz` (set in `src/_data/site.js`) |
+| Delivers to | `admin@tynevalleycare.co.uk` (verified in Formspree) |
+| Formspree CAPTCHA | **Off.** It must stay off, because the form submits in the background and can't show Formspree's CAPTCHA page. |
+| Formspree account | Signed up with `admin@tynevalleycare.co.uk` |
+
+The endpoint is **not a secret**. Formspree endpoints are designed to sit in public HTML.
+
+**Overriding the endpoint without a code change:** set a repository variable named `FORM_ENDPOINT` under **Settings → Secrets and variables → Actions → Variables**. The workflow passes it to the build, and it takes priority over `site.js`. Redeploy afterwards.
+
+**How the form behaves** (`src/assets/js/enquiry-form.js`):
+- **Validation in the browser:** required fields, email format, UK postcode, start date not in the past, message length and consent. Errors appear inline with a linked error summary.
+- **Spam defences:**
+  - a hidden honeypot field `_gotcha`, which Formspree silently discards;
+  - submissions made within 3 seconds of page load are blocked;
+  - Formspree's Formshield spam filtering, if it's turned on in the form settings.
+- **Submission:** sent with `fetch` and `Accept: application/json`, with a 20-second timeout and a guard against double-clicks.
+- **Messages to the visitor:** the "Thank you, your enquiry has been sent" message appears **only** when Formspree confirms acceptance. Any error, timeout or offline state shows a clear message, keeps the visitor's answers and offers the email address instead.
+- **No browser storage:** nothing goes into cookies, localStorage or sessionStorage.
+
+**Each enquiry email** has the subject `New care enquiry: <name> (<postcode>)`. It lists:
+- name, email and postcode;
+- who requires care and the type of care;
+- preferred start date and additional information;
+- privacy consent.
+
+Formspree sets **Reply-To** to the visitor's address, so pressing **Reply** in Zoho answers the visitor directly. Past submissions can be viewed or exported at formspree.io → the form → **Submissions**.
+
+**If spam increases:**
+- First tighten Formshield in the Formspree form settings.
+- Formspree also supports your own reCAPTCHA v3, hCaptcha or Turnstile key. That needs a code change and the provider's domain adding to the CSP (see section 9).
+
+**After any change to the form or endpoint**, submit one clearly-labelled test enquiry on the live site and confirm it arrives. Delete the test from the inbox afterwards.
+
+---
+
+## 7. Email (Zoho Mail)
+
+- **Webmail:** https://mail.zoho.uk
+- **Apps:** Zoho Mail for iOS and Android (choose the UK region if asked)
+- **Mailbox:** `admin@tynevalleycare.co.uk`. This is the Zoho organisation's **Super Administrator**. Admin console: https://mailadmin.zoho.uk
+- **Desktop mail apps (Outlook, Apple Mail, Thunderbird):** IMAP is included in Mail Lite.
+  1. Turn it on in Zoho Mail → Settings → Mail Accounts → IMAP Access.
+  2. Use the server names shown on that page.
+  3. If two-factor sign-in is on, generate an application-specific password for the app.
+
+**Folder note:** Zoho's automatic *Notification* sorting has been **turned off**, so Formspree enquiries land in the Inbox. If an enquiry seems missing, also check *Notification*, *Newsletter* and *Spam*.
+
+**Giving someone else access:** don't share the Super Administrator login, because it controls billing and every mail setting. Add a separate Zoho user instead (an extra paid licence), or forward a copy of mail to them.
+
+**Security:**
+- Turn on two-factor sign-in for the Zoho account.
+- Use a unique password stored in a password manager.
+
+---
+
+## 8. Domain and DNS (Namecheap)
+
+Namecheap → Domain List → `tynevalleycare.co.uk` → **Advanced DNS**. **Mail Settings** must stay on **Custom MX**. Switching it to Email Forwarding deletes the Zoho MX records and breaks email.
+
+Current records (all required):
+
+| Type | Host | Value | Purpose |
+|---|---|---|---|
+| A | `@` | `185.199.108.153` | GitHub Pages |
+| A | `@` | `185.199.109.153` | GitHub Pages |
+| A | `@` | `185.199.110.153` | GitHub Pages |
+| A | `@` | `185.199.111.153` | GitHub Pages |
+| AAAA | `@` | `2606:50c0:8000::153` | GitHub Pages (IPv6) |
+| AAAA | `@` | `2606:50c0:8001::153` | GitHub Pages (IPv6) |
+| AAAA | `@` | `2606:50c0:8002::153` | GitHub Pages (IPv6) |
+| AAAA | `@` | `2606:50c0:8003::153` | GitHub Pages (IPv6) |
+| CNAME | `www` | `hasansust32.github.io.` | `www` redirects to the bare domain |
+| TXT | `_github-pages-challenge-hasansust32` | *(value from GitHub)* | GitHub domain verification (prevents takeover) |
+| MX | `@` | `mx.zoho.uk` (priority 10) | Zoho incoming mail |
+| MX | `@` | `mx2.zoho.uk` (priority 20) | Zoho incoming mail |
+| MX | `@` | `mx3.zoho.uk` (priority 50) | Zoho incoming mail |
+| TXT | `@` | `v=spf1 include:zohomailcloud.co.uk ~all` | SPF: Zoho may send for the domain |
+| TXT | `zmail._domainkey` | `v=DKIM1; k=rsa; p=…` *(key from Zoho admin console)* | DKIM signing |
+| TXT | `_dmarc` | `v=DMARC1; p=none; rua=mailto:admin@tynevalleycare.co.uk` | DMARC (monitoring mode) |
+| TXT | `@` | `zoho-verification=…` | Zoho domain verification (keep) |
+
+**Rules:**
+- Keep **exactly one** SPF record (`v=spf1 …`) on `@`. If another sending service is added later, merge its `include:` into that same record.
+- Don't add wildcard (`*`) records. GitHub warns that they allow subdomain takeover.
+- The GitHub Pages IP addresses come from GitHub's custom-domain guide. Re-check that guide before changing them: https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site
+- **DMARC** is in monitoring mode (`p=none`). After a few weeks of normal sending with no failures in the reports, you can move to `p=quarantine`.
+
+**Checking DNS:**
+
+```bash
+dig tynevalleycare.co.uk A +short
+dig tynevalleycare.co.uk MX +short
+dig tynevalleycare.co.uk TXT +short
+dig www.tynevalleycare.co.uk CNAME +short
+```
+
+On Windows: `Resolve-DnsName tynevalleycare.co.uk -Type MX`.
+
+---
+
+## 9. Security and privacy
+
+- **Content Security Policy** (production builds, in `src/_includes/layouts/base.njk`):
+  - scripts, styles, fonts and images load from the site itself only;
+  - network requests and form posts may go to the site and to the Formspree origin only;
+  - `object-src 'none'` and `base-uri 'self'`.
+- **Adding a third-party service** (analytics, maps, video, CAPTCHA) needs three things:
+  1. allow it in the CSP;
+  2. describe it in the privacy notice;
+  3. add a cookie consent banner if it sets non-essential cookies.
+- **No third-party requests on page load:** fonts (Literata and Atkinson Hyperlegible Next, SIL Open Font Licence) are self-hosted, and there are no trackers or analytics.
+- **No secrets in the repository:** the Formspree endpoint is public by design, and there are no API keys.
+- **Privacy notice:** it's at `enquire.html#privacy`. It explains that enquiries are processed by Formspree and delivered by email. Review it against the ICO's guidance for small organisations, and keep its retention wording true to practice (for example, how long enquiry emails and Formspree submissions are kept).
+- **ICO:** check whether the business must pay the ICO data protection fee.
+- **Formspree retention:** enquiries may contain health information. Periodically delete old submissions from the Formspree dashboard if you don't need them there. You can also turn off Formspree's *Submission Archive* in the form settings so it keeps no copy.
+
+---
+
+## 10. Testing
+
+The production build was tested in Chromium with Playwright before each release, using a simulated Formspree:
+
+- **Layouts:** 1440, 820, 390 and 320 px, with no horizontal scrolling.
+- **Links:** every internal link and anchor resolves; the only outward link is the `mailto:`; no phone numbers appear.
+- **Navigation:** the mobile menu opens and closes, including with Escape. The skip link is the first Tab stop, and focus is visible everywhere.
+- **Form outcomes:**
+  - validation errors;
+  - success;
+  - a Formspree 422 error with its message;
+  - a 500 error;
+  - network failure and timeout;
+  - double-submit protection;
+  - the 3-second bot check.
+- **Payload:** the fields sent match what Formspree expects, including `_subject` and `_gotcha`.
+- **Clean run:** no cookies or browser storage, no console errors, no CSP violations.
+- **Accessibility:** axe-core reports 0 WCAG 2.1 A/AA violations on both pages, at desktop and mobile sizes.
+- **Real delivery:** a live end-to-end test from https://tynevalleycare.co.uk/enquire.html was delivered to `admin@tynevalleycare.co.uk`.
+
+**Before releasing changes**, at minimum:
+1. Run `npm run build` and check there are no errors.
+2. Preview `_site/` locally.
+3. Tab through both pages.
+4. After deploying, send one test enquiry.
+
+---
+
+## 11. Routine checks
+
+| When | Check |
+|---|---|
+| After every deploy | Both pages load over HTTPS. If the form or `site.js` changed, send a test enquiry. |
+| Monthly | Formspree usage against the free limit. Look in Zoho *Spam* for missed enquiries. |
+| Every 6 months | Run `npm outdated` / `npm update`, rebuild and redeploy. Review the privacy notice. |
+| October 2027 | Decide on the Namecheap (1 Nov) and Zoho (3 Nov) renewals. |
+
+`npm audit` warnings in build-only tools don't affect the published site, which contains no npm code. Still, keep dependencies reasonably current.
+
+---
+
+## 12. Troubleshooting
+
+| Problem | Likely cause and fix |
+|---|---|
+| Whole site shows a GitHub 404 | **Settings → Pages → Source** isn't **GitHub Actions**, or the last workflow failed. Check **Actions**. |
+| Workflow fails at "Install dependencies" | `package-lock.json` is missing or out of sync. Run `npm install`, commit the lock file and push. |
+| "Enforce HTTPS" unavailable, or certificate warning | The certificate is being reissued, often after DNS or custom-domain changes. Wait up to 24 hours. Don't repeatedly remove and re-add the domain. |
+| Form says "not connected yet" | The endpoint is the placeholder or empty. Check `src/_data/site.js` and the `FORM_ENDPOINT` variable, then redeploy. |
+| Form says "The form service said: …" | Formspree rejected the submission. Check the form is enabled, CAPTCHA is off, the email is verified and the monthly limit isn't used up. |
+| Form shows success but no email arrives | Check Zoho *Spam*, *Notification* and *Newsletter*, and the Formspree **Submissions** tab. Confirm the MX records (section 8). |
+| Can't receive any email | Namecheap **Mail Settings** isn't **Custom MX**, or the MX records were changed. Restore the records in section 8. |
+| Sent mail lands in recipients' spam | Check there is exactly one SPF record, and that Zoho admin console → Domains → Email configuration shows SPF and DKIM verified. |
+| Old styles after an update | Browser cache. Hard refresh. Each build also versions the CSS/JS URLs. |
+
+---
+
+## 13. Project structure
 
 ```
 tynevalleycare/
-├── .github/workflows/deploy.yml   GitHub Actions: build + publish to GitHub Pages
+├── .github/workflows/deploy.yml   Build with Eleventy and publish to GitHub Pages
 ├── eleventy.config.js             Build settings (input src/, output _site/)
 ├── package.json / package-lock.json
-├── .nvmrc                         Node.js version used by the build (22)
+├── .nvmrc                         Node.js version for builds (22)
 └── src/
     ├── _data/
-    │   ├── site.js                ★ Business details, domain, form endpoint (the config file)
-    │   ├── home.js                ★ All homepage text
-    │   ├── enquire.js             ★ Enquiry page text, form labels and options
-    │   └── build.js               Build date / cache-busting (no need to edit)
+    │   ├── site.js                ★ Business details, domain, form endpoint
+    │   ├── home.js                ★ Homepage text
+    │   ├── enquire.js             ★ Enquiry page text and form options
+    │   └── build.js               Build date and asset versioning
     ├── _includes/
-    │   ├── layouts/base.njk       Page shell: <head>, SEO tags, security policy
-    │   ├── partials/              Reusable header, footer, logo mark, form fields
+    │   ├── layouts/base.njk       Page shell, SEO and social tags, JSON-LD, CSP
+    │   ├── partials/              Header, footer, logo mark, form field macros
     │   ├── sections/              One file per homepage section
-    │   ├── content/privacy-notice.njk   ★ Privacy notice text
+    │   ├── content/privacy-notice.njk   ★ Privacy notice
     │   └── icons/                 Service icons (SVG)
     ├── assets/
-    │   ├── css/site.css           All styles; colours and sizes are tokens at the top
-    │   ├── js/site.js             Mobile menu, footer year
+    │   ├── css/site.css           All styles (design tokens at the top)
+    │   ├── js/site.js             Mobile menu
     │   ├── js/enquiry-form.js     Form validation and submission
-    │   ├── images/                Illustrations, logo, favicons, social image
-    │   └── fonts/                 Self-hosted fonts (SIL Open Font Licence)
-    ├── index.njk                  Homepage: the list of sections, in order
-    ├── enquire.njk                Enquire now page
-    ├── sitemap.njk / robots.njk   Generate sitemap.xml and robots.txt
+    │   ├── images/                Original illustrations, logo, favicons, social image
+    │   └── fonts/                 Self-hosted fonts and OFL licences
+    ├── index.njk                  Homepage
+    ├── enquire.njk                Enquire now page (includes the privacy notice)
+    ├── sitemap.njk / robots.njk   sitemap.xml and robots.txt
     ├── favicon.ico
     └── CNAME                      tynevalleycare.co.uk
 ```
 
-★ = the files you will edit most.
-
-The site has **two pages only**: `index.html` and `enquire.html`. The privacy notice is a section of the enquiry page (`enquire.html#privacy`), so no third page is needed.
-
----
-
-## 2. Run it on your computer
-
-You need **Node.js 18 or newer** (22 recommended): https://nodejs.org
-
-```bash
-npm install        # first time only
-npm start          # preview at http://localhost:8080 with live reload
-npm run build      # produce the finished site in _site/
-```
-
-`_site/` is what gets published. You never edit it by hand, and it is not committed to Git.
-
----
-
-## 3. Edit the content
-
-| To change… | Edit |
-|---|---|
-| Business name, email, address, domain | `src/_data/site.js` |
-| Homepage wording, services, steps, who we support | `src/_data/home.js` |
-| Enquiry page wording, form labels and options | `src/_data/enquire.js` |
-| Privacy notice | `src/_includes/content/privacy-notice.njk` |
-| Section order, or add/remove a homepage section | `src/index.njk` (one line per section) |
-| Colours, fonts, spacing | Tokens at the top of `src/assets/css/site.css` |
-
-**Adding a new homepage section:** create `src/_includes/sections/my-section.njk`, add its text to `home.js`, and add `{% include "sections/my-section.njk" %}` to `src/index.njk`. Copy an existing section as a starting point.
-
-**No telephone number** appears anywhere, by design. Please keep it that way unless you decide otherwise.
-
----
-
-## 4. Connect the enquiry form (Formspree)
-
-Until you do this, the form **will not send anything**. A visitor who submits it is told the form isn't connected yet and is given the email address instead. It never shows a false "sent" message.
-
-### 4.1 Make sure the mailbox exists
-
-Buying a domain does **not** give you an email inbox. Set up email hosting for `admin@tynevalleycare.co.uk` with your domain registrar or an email provider, and add the MX records they give you. Email (MX) records and the GitHub Pages records in section 6 don't conflict.
-
-### 4.2 Create the Formspree form
-
-1. Go to https://formspree.io and create an account (sign up with `admin@tynevalleycare.co.uk` if you can).
-2. Create a **new form**, for example "Website enquiries".
-3. Set the form's **target email** to `admin@tynevalleycare.co.uk`. Formspree sends a verification email to that address. Open it and confirm, or submissions won't be forwarded.
-4. Copy the form's **endpoint**. It looks like `https://formspree.io/f/abcdwxyz`.
-5. In the form's **Settings**, find the spam-protection section and **turn off reCAPTCHA** for this form. Formspree's built-in reCAPTCHA works by sending visitors to a Formspree page, which can't happen when the form submits in the background as this one does. The site keeps two other spam defences:
-   - a hidden honeypot field (`_gotcha`), which Formspree uses to silently discard bot submissions;
-   - a timing check that blocks submissions made within 3 seconds of the page loading.
-
-   If spam becomes a problem later, Formspree supports adding your own reCAPTCHA, hCaptcha or Turnstile key (see Formspree's "Spam filtering" help pages and their plan details).
-6. Check Formspree's current plan limits (monthly submissions) on its pricing page, and choose a plan that fits.
-
-### 4.3 Put the endpoint into the site (choose one)
-
-**Option A: edit the config file (simplest).** Open `src/_data/site.js` and replace the placeholder:
-
-```js
-endpoint: process.env.FORM_ENDPOINT || "https://formspree.io/f/abcdwxyz",
-```
-
-**Option B: keep it out of the code.** In GitHub, go to **Settings → Secrets and variables → Actions → Variables → New repository variable**. Set the name to `FORM_ENDPOINT` and the value to your endpoint. The deploy workflow passes it to the build.
-
-The endpoint is **not a secret**. Formspree endpoints are meant to appear in public HTML, and the site contains no API keys. Option B simply keeps configuration separate from code.
-
-After either option, push to `main` (or re-run the workflow) so the site rebuilds.
-
-### 4.4 What each enquiry email contains
-
-The subject line reads `New care enquiry: <name> (<postcode>)`. The email lists: name, email, postcode, who requires care, type of care, preferred start date, additional information and privacy consent. Formspree sets **Reply-To** to the visitor's email, so you can reply directly.
-
-### 4.5 Test it for real
-
-After the site is live, submit a real test enquiry from the live website. Then confirm:
-
-- the email arrives at `admin@tynevalleycare.co.uk` (check spam/junk too);
-- the submission appears in the Formspree dashboard;
-- the website showed "Thank you, your enquiry has been sent".
-
-**Only treat the form as working once this real test has been delivered.**
-
----
-
-## 5. Publish on GitHub Pages
-
-1. **Create a repository** on GitHub, for example `tynevalleycare-website`. Free accounts need a **public** repository for GitHub Pages; private repositories need a paid plan.
-2. **Upload the code.** From this folder:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial website"
-   git branch -M main
-   git remote add origin https://github.com/<your-username>/tynevalleycare-website.git
-   git push -u origin main
-   ```
-   Don't upload `node_modules/` or `_site/`; `.gitignore` already excludes them.
-3. **Turn on Pages:** repository **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-4. Open the **Actions** tab. The "Deploy to GitHub Pages" workflow runs on every push to `main` and takes a minute or two. You can also run it by hand there (**Run workflow**).
-5. When it finishes, the site is live at `https://<your-username>.github.io/tynevalleycare-website/`. All links are relative, so the site works at this address too, before the domain is connected.
-
----
-
-## 6. Connect the custom domain
-
-GitHub's official guide is the source of truth for DNS values. Keep it open while you do this:
-**https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site**
-
-### 6.1 Verify the domain with GitHub (recommended, prevents takeover)
-
-Your GitHub profile **Settings → Pages → Add a domain** → enter `tynevalleycare.co.uk`. GitHub shows a **TXT record**. Add it at your DNS provider exactly as shown, then click **Verify**.
-
-### 6.2 Add the domain to the repository first
-
-Repository **Settings → Pages → Custom domain** → enter `tynevalleycare.co.uk` → **Save**. GitHub recommends doing this **before** changing DNS.
-
-### 6.3 Create the DNS records at your registrar
-
-Copy the values from the GitHub guide above. Don't use values from anywhere else.
-
-| Purpose | Record type | Host / name | Value |
-|---|---|---|---|
-| Main domain `tynevalleycare.co.uk` | **A** (four records) | `@` (the apex/root) | The four GitHub Pages IPv4 addresses listed in the guide's apex-domain section |
-| Optional IPv6 | **AAAA** (four records) | `@` | The four IPv6 addresses listed in the same section |
-| `www.tynevalleycare.co.uk` | **CNAME** | `www` | `<your-username>.github.io` (your GitHub username, **without** the repository name) |
-
-Also:
-- **Delete** any default "parking" A or CNAME records your registrar created for `@` or `www`.
-- **Don't** create wildcard records (`*.tynevalleycare.co.uk`). GitHub warns these allow takeover.
-- Leave MX (email) and TXT records alone.
-
-With both the apex and `www` records in place, GitHub Pages redirects `www.tynevalleycare.co.uk` to `tynevalleycare.co.uk` automatically.
-
-### 6.4 Check DNS
-
-DNS changes can take up to 24 hours. On macOS or Linux:
-
-```bash
-dig tynevalleycare.co.uk +noall +answer -t A
-dig tynevalleycare.co.uk +noall +answer -t AAAA
-dig www.tynevalleycare.co.uk +nostats +nocomments +nocmd
-```
-
-On Windows (PowerShell):
-
-```powershell
-Resolve-DnsName tynevalleycare.co.uk -Type A
-Resolve-DnsName www.tynevalleycare.co.uk
-```
-
-The A/AAAA answers should match the addresses in GitHub's guide. The `www` answer should point at `<your-username>.github.io`. In **Settings → Pages**, the DNS check should show as successful.
-
-### 6.5 Turn on HTTPS
-
-Once the DNS check passes, tick **Enforce HTTPS** in **Settings → Pages**. GitHub issues a free certificate, which can take up to 24 hours to become available. Afterwards, check that `http://`, `https://`, `www.` and the bare domain all end up at `https://tynevalleycare.co.uk/`.
-
-### 6.6 About the CNAME file
-
-`src/CNAME` contains `tynevalleycare.co.uk` and is copied into the published site. When you publish **with GitHub Actions** (as this project does), GitHub takes the domain from **Settings → Pages** and ignores the CNAME file. The file stays in the repository as a record of the domain.
-
-**Changing domain later:** update all three:
-- **Settings → Pages**;
-- `src/CNAME`;
-- `url` in `src/_data/site.js`, which is used for canonical links, the sitemap and social previews.
-
-### 6.7 Final connectivity check
-
-- `https://tynevalleycare.co.uk/` loads with a padlock.
-- `https://tynevalleycare.co.uk/enquire.html` loads. Refresh it: there is no 404, because it is a real file.
-- `https://tynevalleycare.co.uk/sitemap.xml` and `/robots.txt` load.
-- Paste the homepage link into a messaging app; the preview shows the social image.
-
----
-
-## 7. Images
-
-All artwork is **original**, drawn for this site as SVG illustrations. No stock photos or images from other websites are used, so there is nothing to license.
-
-| File (in `src/assets/images/`) | Used in | Notes |
-|---|---|---|
-| `hero-tyne-valley-home.svg` | Hero | Shown inside an arch shape; 640 × 660 ratio |
-| `kitchen-table.svg` | What is domiciliary care? | 560 × 460 |
-| `front-door.svg` | Why choose us? | 480 × 600 |
-| `armchair-window.svg` | Who we support | 520 × 520 |
-| `letter-heather.svg` | Enquiry page header | 360 × 360 |
-| `skyline.svg` | Top edge of the final call-to-action band | Decorative |
-| `logo.svg`, `logo.png`, `logo-mark.svg` | Logo files for use elsewhere (email signature, documents) | |
-| `favicon.svg`, `../favicon.ico`, `apple-touch-icon.png` | Browser tab and phone home-screen icons | |
-| `og-image.png` | Preview image when the site is shared (1200 × 630) | |
-
-**To swap an illustration for a photo:**
-1. Use a photo you have the rights to: your own (with written consent from anyone pictured), or properly licensed stock.
-2. Export it as `.jpg` or `.webp` at about twice its display size (for example 1200 px wide) and compress it (for example with https://squoosh.app).
-3. Put it in `src/assets/images/`.
-4. Update `src` and `width`/`height` for that image in `src/_data/home.js`.
-5. Write a new `alt` description of what the photo shows.
-
-Keep a similar aspect ratio, or adjust the image rules in `site.css`. The hero's arch is calculated for a 640 × 660 image.
-
----
-
-## 8. Before you launch (checklist)
-
-- [ ] Formspree endpoint set, reCAPTCHA setting reviewed, **real test enquiry received** (section 4).
-- [ ] `admin@tynevalleycare.co.uk` mailbox exists and is checked regularly.
-- [ ] **Privacy notice reviewed** against the ICO's guidance for small organisations. Confirm the retention wording matches what you actually do, and check whether you need to pay the ICO data protection fee. The notice describes how this site works; it is not legal advice.
-- [ ] **Wording matches how you work.** For example, the site says you visit to plan care and review plans regularly. Edit `home.js` if anything differs.
-- [ ] **Regulation:** the site makes no claims about CQC registration, ratings, awards or reviews. When you have verified details to show (for example a CQC registration and its current rating), add them. Don't add anything that can't be checked.
-- [ ] Domain connected and **Enforce HTTPS** ticked (section 6).
-- [ ] Check the site on a phone, a tablet and a desktop.
-
----
-
-## 9. How the site was tested
-
-Before handover, the production build was served locally and checked in Chromium with Playwright.
-
-- **Layouts:** desktop (1440 px), tablet (820 px) and mobile (390 px and 320 px). No horizontal scrolling at any size.
-- **Links and navigation:** every internal link and section anchor resolves; the logo returns to the homepage; every "Make an enquiry" button opens `enquire.html`; there are no external links apart from the business `mailto:`; no phone numbers appear.
-- **Mobile menu:** opens and closes, closes on Escape and after choosing a link.
-- **Keyboard:** the skip link is the first Tab stop, and focus is visible on every control.
-- **Form validation:** required fields, email format, UK postcode format, start date not in the past, error summary with links to each field, and `aria-invalid` on fields with errors.
-- **Submission handling, with Formspree simulated:**
-  - success shows the confirmation and hides the form;
-  - a Formspree error shows its message and keeps the visitor's answers;
-  - server errors, network failures and timeouts show clear messages;
-  - double-clicking sends only one request;
-  - a submission within 3 seconds of page load is blocked;
-  - with the placeholder endpoint, the form shows an honest "not connected" message and sends nothing.
-- **Payload:** the fields sent match what Formspree expects, including `_subject` and `_gotcha`.
-- **Storage and console:** nothing is stored in cookies or browser storage; there are no JavaScript errors and no Content Security Policy violations.
-- **Accessibility:** axe-core reports no WCAG 2.1 A/AA violations on either page, at desktop or mobile size.
-
-**Not tested:** delivery of a real email. That needs your Formspree account and the live site (section 4.5).
-
----
-
-## 10. Maintenance rules
-
-- Keep the site **static**. Don't add a database, a server or server-side code; GitHub Pages can't run them. If you ever need one, treat it as a deliberate change of hosting.
-- The build output must stay plain HTML/CSS/JS. Eleventy is a build-time tool only.
-- Fonts are self-hosted (Literata and Atkinson Hyperlegible Next, both under the SIL Open Font Licence; licence files are in `src/assets/fonts/`). The site makes no requests to Google or other third parties, except to Formspree when someone submits the form.
-- `src/_includes/layouts/base.njk` sets a **Content Security Policy** in production builds. If you add a third-party service (analytics, maps, video), you must allow it there. You must also update the privacy notice, and add a cookie banner if the service sets cookies.
-- `npm audit` may report advisories in build-time tools. These don't affect the published site, but keep dependencies updated with `npm update` from time to time.
-
----
-
-## 11. Troubleshooting
-
-| Problem | Likely cause and fix |
-|---|---|
-| GitHub shows a 404 for the whole site | **Settings → Pages → Source** isn't set to **GitHub Actions**, or the workflow failed. Check the **Actions** tab. |
-| Workflow fails at "Install dependencies" | `package-lock.json` is missing from the repository. Commit it. |
-| Form says "not connected yet" | The endpoint is still the placeholder. See section 4.3, then redeploy. |
-| Form says "The form service said: …" | Formspree rejected the submission. Read the message, check the form's settings in Formspree (verified email, reCAPTCHA off) and the plan limits. |
-| No email arrives | Check spam/junk, check the Formspree dashboard, and confirm the target email was verified. |
-| "Domain does not resolve" or "improperly configured" in Pages settings | DNS records are missing, wrong, or still propagating. Re-check section 6.3 against GitHub's guide and wait up to 24 hours. |
-| "Enforce HTTPS" is greyed out | The certificate is still being issued. It can take up to 24 hours after the DNS check passes. |
-| Old styles still showing after a change | Browser cache. Do a hard refresh. Each build also changes the CSS/JS version string automatically. |
+★ = the files edited most often.
